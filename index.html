@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creatine - Aleks Studio</title>
+    <style>
+        /* მთავარი სტილები და ფონტები */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #060409 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* ზედა ზოლი (Header) */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            animation: slideDown 1s ease-out;
+            z-index: 10;
+        }
+
+        .studio-logo {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #00f2fe;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        /* 4. ენის გადამრთველი (Language Switcher) */
+        .lang-switch {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .lang-switch:hover {
+            border-color: #00f2fe;
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        /* მთავარი კონტეინერი */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 40px 20px;
+            z-index: 2;
+        }
+
+        /* თამაშის სახელი */
+        .game-title {
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(45deg, #00f2fe, #9b51e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3));
+            animation: zoomIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* თამაშის აღწერა */
+        .game-description {
+            font-size: 1.4rem;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
+        /* მახასიათებლების ბარათები */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(155, 81, 224, 0.3);
+            box-shadow: 0 10px 30px rgba(155, 81, 224, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #00f2fe;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* გალერეა */
+        .gallery-section {
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.9s;
+        }
+
+        .gallery-section h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .image-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+        }
+
+        .image-container:hover {
+            transform: scale(1.03);
+            border-color: #00f2fe;
+            box-shadow: 0 20px 45px rgba(0, 242, 254, 0.2);
+        }
+
+        .game-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* სისტემური მოთხოვნები */
+        .requirements-section {
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.95s;
+        }
+
+        .requirements-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .req-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .req-box h3 {
+            color: #00f2fe;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .req-box ul {
+            list-style: none;
+        }
+
+        .req-box ul li {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .req-box ul li strong {
+            color: #a78bfa;
+        }
+
+        /* მთავარი სექცია: გამოსვლის თარიღი */
+        .release-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            animation-delay: 1s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 50px;
+        }
+
+        .release-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 242, 254, 0.15);
+            border-color: rgba(0, 242, 254, 0.3);
+        }
+
+        .release-box h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #a78bfa;
+            margin-bottom: 15px;
+        }
+
+        .date {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* უკუათვლის ტაიმერი */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 70px;
+        }
+
+        .countdown-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00f2fe;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
+
+        /* 3. განახლებული რეგისტრაციის ფორმა ბეტა პლატფორმით */
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 450px;
+            margin: 30px auto 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .register-input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        .register-input:focus {
+            border-color: #00f2fe;
+        }
+
+        /* პლატფორმის სელექტორი */
+        .platform-select {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #15102a;
+            color: white;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .platform-select:focus {
+            border-color: #00f2fe;
+        }
+
+        .register-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            color: #0f0c20;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            white-space: nowrap;
+        }
+
+        .register-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+        }
+
+        /* სიახლეების ბლოკი */
+        .blog-section {
+            margin-bottom: 50px;
+            text-align: left;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1.1s;
+        }
+
+        .blog-section h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid #00f2fe;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin-bottom: 15px;
+        }
+
+        .blog-date {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .blog-card h3 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .blog-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* FAQ (აკორდეონი) */
+        .faq-section {
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            text-align: left;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1.2s;
+        }
+
+        .faq-section h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #a78bfa;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        /* 2. სოციალური ქსელების ღილაკები (Social Icons) */
+        .social-section {
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1.3s;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .social-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            border-color: #00f2fe;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+        }
+
+        /* ქვედა ზოლი (Footer) */
+        footer {
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 0.9rem;
+            color: #64748b;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .studio-highlight {
+            color: #4facfe;
+            font-weight: 600;
+        }
+
+        /* 📱 მობილურის ოპტიმიზაცია (RESPONSIVE) */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            .game-title {
+                font-size: 3rem;
+            }
+            .game-description {
+                font-size: 1.1rem;
+            }
+            .date {
+                font-size: 2.2rem;
+            }
+            .release-box {
+                padding: 30px 20px;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .register-btn {
+                width: 100%;
+            }
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .social-btn {
+                width: 80%;
+                text-align: center;
+            }
+        }
+
+        /* ანიმაციები */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.7; text-shadow: 0 0 5px rgba(0, 242, 254, 0.3); }
+            to { opacity: 1; text-shadow: 0 0 15px rgba(0, 242, 254, 0.8); }
+        }
+
+        .bg-glow {
+            position: absolute;
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(155, 81, 224, 0.1) 0%, rgba(0,0,0,0) 70%);
+            top: -100px;
+            left: -100px;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="studio-logo">Aleks Studio</div>
+        <select class="lang-switch" onchange="changeLanguage(this.value)">
+            <option value="ka">KA</option>
+            <option value="en">EN</option>
+        </select>
+    </header>
+
+    <div class="container">
+        <h1 class="game-title">Creatine</h1>
+        <p class="game-description" id="txt-desc">ეს თამაში არის გონების გასანძრევი თამაში</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🧠</span>
+                <h3 id="txt-f1-t">ლოგიკური ამოცანები</h3>
+                <p id="txt-f1-d">რთული და საინტერესო თავსატეხები, რომლებიც თქვენს გონებას გამოსცდის.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎨</span>
+                <h3 id="txt-f2-t">უნიკალური სტილი</h3>
+                <p id="txt-f2-d">ატმოსფერული ვიზუალური ეფექტები და თანამედროვე გრაფიკული დიზაინი.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎵</span>
+                <h3 id="txt-f3-t">ხმის ეფექტები</h3>
+                <p id="txt-f3-d">სპეციალურად ფოკუსირებისთვის შექმნილი მუსიკალური გაფორმება.</p>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <h2 id="txt-art-title">ოფიციალური არტი</h2>
+            <div class="image-container">
+                <img src="creatine-logo.png" alt="Creatine Game" class="game-img">
+            </div>
+        </div>
+
+        <div class="requirements-section">
+            <h2 id="txt-req-title">სისტემური მოთხოვნები</h2>
+            <div class="req-grid">
+                <div class="req-box">
+                    <h3 id="txt-req-min">მინიმალური</h3>
+                    <ul>
+                        <li><strong id="txt-os-1">ოპერაციული:</strong> Android 8.0 / iOS 12</li>
+                        <li><strong id="txt-cpu-1">პროცესორი:</strong> Octa-core 1.8 GHz</li>
+                        <li><strong id="txt-ram-1">ოპერატიული:</strong> 3 GB RAM</li>
+                        <li><strong id="txt-storage-1">მეხსიერება:</strong> 500 MB</li>
+                    </ul>
+                </div>
+                <div class="req-box">
+                    <h3 id="txt-req-rec">რეკომენდებული</h3>
+                    <ul>
+                        <li><strong id="txt-os-2">ოპერაციული:</strong> Android 11 / iOS 15</li>
+                        <li><strong id="txt-cpu-2">პროცესორი:</strong> Snapdragon 720G</li>
+                        <li><strong id="txt-ram-2">ოპერატიული:</strong> 6 GB RAM</li>
+                        <li><strong id="txt-storage-2">მეხსიერება:</strong> 1 GB</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="release-box">
+            <h2 id="txt-prep">მოემზადეთ რევოლუციისთვის</h2>
+            <div class="date" id="txt-date">24 ივლისი</div>
+            
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label" id="lbl-d">დღე</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label" id="lbl-h">საათი</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label" id="lbl-m">წუთი</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label" id="lbl-s">წამი</span>
+                </div>
+            </div>
+
+            <div class="register-form">
+                <div class="form-row">
+                    <input type="email" class="register-input" id="input-mail" placeholder="შეიყვანეთ ელ-ფოსტა">
+                    <select class="platform-select" id="input-platform">
+                        <option value="android">Android (Beta)</option>
+                        <option value="ios">iOS (Beta)</option>
+                        <option value="pc">PC / Web</option>
+                    </select>
+                </div>
+                <button class="register-btn" id="btn-reg">რეგისტრაცია</button>
+            </div>
+
+            <p style="margin-top: 25px; font-size: 0.9rem; color: #94a3b8;"><span id="txt-prep-by">თამაშს ამზადებს კომპანია</span> <span style="color:#00f2fe;">Aleks studio</span></p>
+        </div>
+
+        <div class="blog-section">
+            <h2 id="txt-news-title">სიახლეები სტუდიიდან</h2>
+            <div class="blog-card">
+                <div class="blog-date" id="txt-b1-date">31 მაისი, 2026</div>
+                <h3 id="txt-b1-t">გრაფიკული ინტერფეისის განახლება</h3>
+                <p id="txt-b1-d">Aleks studio-ს გუნდმა დაასრულა მუშაობა თამაშის მთავარ მენიუზე. ანიმაციები გახდა კიდევ უფრო რბილი და მამოტივირებელი.</p>
+            </div>
+            <div class="blog-card">
+                <div class="blog-date" id="txt-b2-date">15 მაისი, 2026</div>
+                <h3 id="txt-b2-t">პირველი ტესტირება წარმატებით დასრულდა</h3>
+                <p id="txt-b2-d">გონების გასანძრევი თავსატეხების პირველმა პროტოტიპმა შიდა ტესტირებაზე საუკეთესო შეფასებები მიიღო.</p>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 id="txt-faq-title">ხშირად დასმული კითხვები</h2>
+            <div class="faq-item">
+                <div class="faq-question" id="txt-q1" onclick="toggleFaq(this)">უფასო იქნება თამაში? <span>+</span></div>
+                <div class="faq-answer" id="txt-a1">დიახ! თამაში იქნება სრულიად უფასო ყველა მოთამაშისთვის.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" id="txt-q2" onclick="toggleFaq(this)">ვინ ამზადებს თამაშს? <span>+</span></div>
+                <div class="faq-answer" id="txt-a2">თამაშს სრულად აკონტროლებს, ავითარებს და ამზადებს კომპანია Aleks studio.</div>
+            </div>
+        </div>
+
+        <div class="social-section">
+            <h2 id="txt-social-title">შემოუერთდით ჩვენს კომუნას</h2>
+            <div class="social-links">
+                <a href="#" class="social-btn">Discord</a>
+                <a href="#" class="social-btn">TikTok</a>
+                <a href="#" class="social-btn">YouTube</a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p id="txt-footer">&copy; 2026 ყველა უფლება დაცულია. თამაშს ამზადებს კომპანია <span class="studio-highlight">Aleks studio</span></p>
+    </footer>
+
+    <script>
+        // ტაიმერის ლოგიკა
+        const currentYear = new Date().getFullYear();
+        let targetDate = new Date(`July 24, ${currentYear} 00:00:00`).getTime();
+        
+        if (new Date().getTime() > targetDate) {
+            targetDate = new Date(`July 24, ${currentYear + 1} 00:00:00`).getTime();
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+            document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // FAQ აკორდეონი
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const span = element.querySelector('span');
+            
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                answer.style.maxHeight = '0px';
+                answer.style.padding = '0 20px';
+                span.innerText = '+';
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.padding = '15px 20px';
+                span.innerText = '-';
+            }
+        }
+
+        // 4. ენის გადართვის ლოგიკა (KA / EN)
+        const translations = {
+            ka: {
+                desc: "ეს თამაში არის გონების გასანძრევი თამაში",
+                f1t: "ლოგიკური ამოცანები", f1d: "რთული და საინტერესო თავსატეხები, რომლებიც თქვენს გონებას გამოსცდის.",
+                f2t: "უნიკალური სტილი", f2d: "ატმოსფერული ვიზუალური ეფექტები და თანამედროვე გრაფიკული დიზაინი.",
+                f3t: "ხმის ეფექტები", f3d: "სპეციალურად ფოკუსირებისთვის შექმნილი მუსიკალური გაფორმება.",
+                art: "ოფიციალური არტი", req: "სისტემური მოთხოვნები", min: "მინიმალური", rec: "რეკომენდებული",
+                os: "ოპერაციული:", cpu: "პროცესორი:", ram: "ოპერატიული:", storage: "მეხსიერება:",
+                prep: "მოემზადეთ რევოლუციისთვის", date: "24 ივლისი",
+                lbl_d: "დღე", lbl_h: "საათი", lbl_m: "წუთი", lbl_s: "წამი",
+                mail: "შეიყვანეთ ელ-ფოსტა", btn_reg: "რეგისტრაცია",
+                prep_by: "თამაშს ამზადებს კომპანია", news: "სიახლეები სტუდიიდან",
+                b1_date: "31 მაისი, 2026", b1_t: "გრაფიკული ინტერფეისის განახლება", b1_d: "Aleks studio-ს გუნდმა დაასრულა მუშაობა თამაშის მთავარ მენიუზე. ანიმაციები გახდა კიდევ უფრო რბილი და მამოტივირებელი.",
+                b2_date: "15 მაისი, 2026", b2_t: "პირველი ტესტირება წარმატებით დასრულდა", b2_d: "გონების გასანძრევი თავსატეხების პირველმა პროტოტიპმა შიდა ტესტირებაზე საუკეთესო შეფასებები მიიღო.",
+                faq: "ხშირად დასმული კითხვები", q1: "უფასო იქნება თამაში? <span>+</span>", a1: "დიახ! თამაში იქნება სრულიად უფასო ყველა მოთამაშისთვის.",
+                q2: "ვინ ამზადებს თამაშს? <span>+</span>", a2: "თამაშს სრულად აკონტროლებს, ავითარებს და ამზადებს კომპანია Aleks studio.",
+                social: "შემოუერთდით ჩვენს კომუნას", footer: "&copy; 2026 ყველა უფლება დაცულია. თამაშს ამზადებს კომპანია Aleks studio"
+            },
+            en: {
+                desc: "This game is a mind-bending puzzle game",
+                f1t: "Logical Puzzles", f1d: "Challenging and interesting puzzles that will test your brain power.",
+                f2t: "Unique Style", f2d: "Atmospheric visual effects and modern graphical interface design.",
+                f3t: "Sound Effects", f3d: "Specially crafted audio soundtrack designed for focus and immersion.",
+                art: "Official Artwork", req: "System Requirements", min: "Minimum", rec: "Recommended",
+                os: "OS:", cpu: "CPU:", ram: "RAM:", storage: "Storage:",
+                prep: "Get Ready for the Revolution", date: "July 24",
+                lbl_d: "Days", lbl_h: "Hours", lbl_m: "Mins", lbl_s: "Secs",
+                mail: "Enter your email", btn_reg: "Register",
+                prep_by: "The game is being developed by", news: "Studio News",
+                b1_date: "May 31, 2026", b1_t: "UI/UX Interface Update", b1_d: "The Aleks studio team has finished working on the main menu. Animations are now smoother and more motivating.",
+                b2_date: "May 15, 2026", b2_t: "First Testing Completed Successfully", b2_d: "The first prototype of our mind-bending puzzles received top scores during internal testing.",
+                faq: "Frequently Asked Questions", q1: "Will the game be free? <span>+</span>", a1: "Yes! The game will be completely free-to-play for everyone.",
+                q2: "Who is making the game? <span>+</span>", a2: "The game is fully managed, developed, and prepared by Aleks studio.",
+                social: "Join Our Community", footer: "&copy; 2026 All rights reserved. The game is being prepared by Aleks studio"
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang];
+            document.getElementById('txt-desc').innerText = t.desc;
+            document.getElementById('txt-f1-t').innerText = t.f1t; document.getElementById('txt-f1-d').innerText = t.f1d;
+            document.getElementById('txt-f2-t').innerText = t.f2t; document.getElementById('txt-f2-d').innerText = t.f2d;
+            document.getElementById('txt-f3-t').innerText = t.f3t; document.getElementById('txt-f3-d').innerText = t.f3d;
+            document.getElementById('txt-art-title').innerText = t.art;
+            document.getElementById('txt-req-title').innerText = t.req;
+            document.getElementById('txt-req-min').innerText = t.min; document.getElementById('txt-req-rec').innerText = t.rec;
+            document.getElementById('txt-os-1').innerText = t.os; document.getElementById('txt-os-2').innerText = t.os;
+            document.getElementById('txt-cpu-1').innerText = t.cpu; document.getElementById('txt-cpu-2').innerText = t.cpu;
+            document.getElementById('txt-ram-1').innerText = t.ram; document.getElementById('txt-ram-2').innerText = t.ram;
+            document.getElementById('txt-storage-1').innerText = t.storage; document.getElementById('txt-storage-2').innerText = t.storage;
+            document.getElementById('txt-prep').innerText = t.prep; document.getElementById('txt-date').innerText = t.date;
+            document.getElementById('lbl-d').innerText = t.lbl_d; document.getElementById('lbl-h').innerText = t.lbl_h;
+            document.getElementById('lbl-m').innerText = t.lbl_m; document.getElementById('lbl-s').innerText = t.lbl_s;
+            document.getElementById('input-mail').placeholder = t.mail; document.getElementById('btn-reg').innerText = t.btn_reg;
+            document.getElementById('txt-prep-by').innerText = t.prep_by; document.getElementById('txt-news-title').innerText = t.news;
+            document.getElementById('txt-b1-date').innerText = t.b1_date; document.getElementById('txt-b1-t').innerText = t.b1_t; document.getElementById('txt-b1-d').innerText = t.b1_d;
+            document.getElementById('txt-b2-date').innerText = t.b2_date; document.getElementById('txt-b2-t').innerText = t.b2_t; document.getElementById('txt-b2-d').innerText = t.b2_d;
+            document.getElementById('txt-faq-title').innerText = t.faq;
+            document.getElementById('txt-q1').innerHTML = t.q1; document.getElementById('txt-a1').innerText = t.a1;
+            document.getElementById('txt-q2').innerHTML = t.q2; document.getElementById('txt-a2').innerText = t.a2;
+            document.getElementById('txt-social-title').innerText = t.social;
+            document.getElementById('txt-footer').innerHTML = t.footer;
+        }
+    </script>
+</body>
+</html>
